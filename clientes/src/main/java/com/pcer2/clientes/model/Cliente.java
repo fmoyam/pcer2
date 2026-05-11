@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Cliente {
 
     private int id;
