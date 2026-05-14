@@ -1,5 +1,7 @@
 package com.pcer2.service_equipo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,6 +26,7 @@ public class Equipo {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tipo_equipo_id")
+    @JsonIgnoreProperties("equipos")
     private TipoEquipo tipoEquipo;
 
     private String marca;
@@ -34,7 +37,8 @@ public class Equipo {
     private int almacen_cantidad;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "tipo_almacen_id")    
+    @JoinColumn(name = "tipo_almacen_id")
+    @JsonIgnoreProperties("equipos")    
     private TipoAlmacen almacen_tipo;
     
     @Column(unique = true)

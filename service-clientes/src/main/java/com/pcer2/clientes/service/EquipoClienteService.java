@@ -16,7 +16,7 @@ public class EquipoClienteService {
     public List<EquipoDTO> getEquiposByClienteId(Long clienteId) {
         try {
             return webClient.get()
-                    .uri("/api/equipos/cliente/{clienteId}", clienteId)
+                    .uri("/api/v1/equipos/cliente/{clienteId}", clienteId)
                     .retrieve()
                     .bodyToMono(new org.springframework.core.ParameterizedTypeReference<List<EquipoDTO>>() {})
                     .block(); // block() para síncrono, en producción considera suscripción reactiva
