@@ -17,7 +17,7 @@ public class EquipoService {
         return equipoRepository.findAll();
     }
     
-    public Optional<Equipo> buscarPorId(Long id) {
+    public Optional<Equipo> findById(Long id) {
         return equipoRepository.findById(id);
     }
     
@@ -42,8 +42,12 @@ public class EquipoService {
         equipoRepository.deleteById(id);
     }
 
-    public boolean existePorNumeroserie(String numeroserie) {
+    public boolean existePorNumeroserie(String numeroserie) {  
         return equipoRepository.existsByNumeroserie(numeroserie);
     }
+
+    public List<Equipo> findByClienteId(Long clienteId) {
+        return equipoRepository.findByClienteId(clienteId);
+    }    
     
 }

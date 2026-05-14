@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pcer2.clientes.dto.EquipoDTO;
 import com.pcer2.clientes.model.Cliente;
 import com.pcer2.clientes.repository.ClienteRepository;
 
@@ -14,13 +15,31 @@ public class ClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
+        
+    @Autowired
+    private EquipoClienteService equipoClientService;
 
     public List<Cliente> listarTodos(){
-        return clienteRepository.findAll();
+        List<Cliente> clientes = clienteRepository.findAll();
+        // Cargar equipos para cada cliente
+        clientes.forEach(cliente -> {
+            List<EquipoDTO> equipos = equipoClientService.getEquiposByClienteId(cliente.getId());
+            cliente.setEquipos(equipos);
+        });
+        return clientes;
     }
 
     public Optional<Cliente> buscarPorId(Long id){
-        return clienteRepository.findById(id);
+        Optional<Cliente> clienteOpt = clienteRepository.findById(id);
+        clienteOpt.ifPresent(cliente -> {
+            List<EquipoDTO> equipos = equipoClientService.getEquiposByClienteId(cliente.getId());
+            cliente.setEquipos(equipos);
+        });
+        return clienteOpt;
+    }
+
+    public Cliente save(Cliente cliente) {
+        return clienteRepository.save(cliente);
     }
 
     public Optional<Cliente> buscarPorRut(String rut) {

@@ -1,6 +1,7 @@
 package com.pcer2.service_equipo.controller;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,7 @@ import com.pcer2.service_equipo.model.Equipo;
 import com.pcer2.service_equipo.service.EquipoService;
 
 @RestController
-@RequestMapping("/api/v2/equipos")
+@RequestMapping("/api/v1/equipos")
 public class EquipoController {
 
     @Autowired
@@ -28,10 +29,17 @@ public class EquipoController {
     // Buscar equipo por ID
     @GetMapping("/{id}")
     public ResponseEntity<Equipo> buscarPorId(@PathVariable Long id) {
-        return equipoService.buscarPorId(id)
+        return equipoService.findById(id)
                             .map(ResponseEntity::ok)
                             .orElse(ResponseEntity.notFound().build());
     }
+
+    // Obtener equipos por id cliente
+    @GetMapping("/cliente/{clienteId}")
+    public ResponseEntity<List<Equipo>> getEquiposByClienteId(@PathVariable Long clienteId) {
+        List<Equipo> equipos = equipoService.findByClienteId(clienteId);
+        return ResponseEntity.ok(equipos);
+    }    
     
     // Buscar equipo por número de serie
     @GetMapping("/serie/{numeroserie}")
@@ -61,59 +69,27 @@ public class EquipoController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    // Método específico para crear equipo con clienteId
+    @PostMapping("/cliente/{clienteId}")
+    public ResponseEntity<Equipo> createEquipoForCliente(
+            @PathVariable Long clienteId, 
+            @RequestBody Equipo equipo) {
+        equipo.setClienteId(clienteId);
+        Equipo savedEquipo = equipoService.guardar(equipo);
+        return new ResponseEntity<>(savedEquipo, HttpStatus.CREATED);
+    }   
     
     // Actualizar equipo existente
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody Equipo equipoActualizado) {
-        // Buscar el equipo existente
-        Equipo equipoExistente = equipoService.buscarPorId(id).orElse(null);
-        
-        if (equipoExistente == null) {
-            return ResponseEntity.notFound().build();
-        }
-        
-        // Actualizar solo los campos que vienen en la petición
-        if (equipoActualizado.getTipoEquipo() != null) {
-            equipoExistente.setTipoEquipo(equipoActualizado.getTipoEquipo());
-        }
-        if (equipoActualizado.getMarca() != null) {
-            equipoExistente.setMarca(equipoActualizado.getMarca());
-        }
-        if (equipoActualizado.getModelo_cpu() != null) {
-            equipoExistente.setModelo_cpu(equipoActualizado.getModelo_cpu());
-        }
-        if (equipoActualizado.getPlaca_madre() != null) {
-            equipoExistente.setPlaca_madre(equipoActualizado.getPlaca_madre());
-        }
-        if (equipoActualizado.getRam_cantidad() > 0) {
-            equipoExistente.setRam_cantidad(equipoActualizado.getRam_cantidad());
-        }
-        if (equipoActualizado.getRam_frecuencia() > 0) {
-            equipoExistente.setRam_frecuencia(equipoActualizado.getRam_frecuencia());
-        }
-        if (equipoActualizado.getAlmacen_cantidad() > 0) {
-            equipoExistente.setAlmacen_cantidad(equipoActualizado.getAlmacen_cantidad());
-        }
-        if (equipoActualizado.getAlmacen_tipo() != null) {
-            equipoExistente.setAlmacen_tipo(equipoActualizado.getAlmacen_tipo());
-        }
-        if (equipoActualizado.getNumeroserie() != null) {
-            // Verificar que el nuevo número de serie no esté en uso por otro equipo
-            if (!equipoExistente.getNumeroserie().equals(equipoActualizado.getNumeroserie()) &&
-                equipoService.existePorNumeroserie(equipoActualizado.getNumeroserie())) {
-                return ResponseEntity
-                        .badRequest()
-                        .body("Ya existe otro equipo con el número de serie: " + equipoActualizado.getNumeroserie());
-            }
-            equipoExistente.setNumeroserie(equipoActualizado.getNumeroserie());
-        }
-        if (equipoActualizado.getVeces_reparado() >= 0) {
-            equipoExistente.setVeces_reparado(equipoActualizado.getVeces_reparado());
-        }
-        
-        // Guardar los cambios
-        Equipo actualizado = equipoService.guardar(equipoExistente);
-        return ResponseEntity.ok(actualizado);
+    public ResponseEntity<Equipo> updateEquipo(@PathVariable Long id, @RequestBody Equipo equipo) {
+        return equipoService.findById(id)
+                .map(existingEquipo -> {
+                    equipo.setId(id);
+                    Equipo updatedEquipo = equipoService.guardar(equipo);
+                    return ResponseEntity.ok(updatedEquipo);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
     
     // Eliminar equipo

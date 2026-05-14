@@ -42,4 +42,8 @@ public class Equipo {
     
     private int veces_reparado;
 
+    @Column(name = "cliente_id", nullable = false)
+    private Long clienteId;    
+
+    
 }

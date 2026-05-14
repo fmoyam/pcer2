@@ -14,5 +14,7 @@ public interface EquipoRepository extends JpaRepository<Equipo, Long>{
     Optional<Equipo> findByNumeroserie(String numeroserie);
     
     boolean existsByNumeroserie(String numeroserie);
+
+    List<Equipo> findByClienteId(Long clienteId);    
     
 }
