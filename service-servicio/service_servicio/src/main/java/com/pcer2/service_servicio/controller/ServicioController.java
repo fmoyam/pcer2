@@ -13,24 +13,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pcer2.service_servicio.dto.ServicioDTO;
 import com.pcer2.service_servicio.model.Servicio;
 import com.pcer2.service_servicio.service.ServicioService;
 
-@RestController //Esta clase recibirá peticiones web
-@RequestMapping("/api/v1/servicios") //Todos los endpoints empiezan con /api/v1/servicios
+@RestController // Esta clase recibirá peticiones web
+@RequestMapping("/api/v1/servicios") // Todos los endpoints empiezan con /api/v1/servicios
 public class ServicioController {
 
     @Autowired
     private ServicioService servicioService;
 
-    @GetMapping //Sirve para listar todos los servicios
+    @GetMapping // Sirve para listar todos los servicios
     public List<Servicio> listar() {
         return servicioService.listarTodos();
     }
 
-    @PostMapping //Sirve para crear un servicio nuevo
-    public ResponseEntity<Servicio> crear(@RequestBody Servicio servicio) {
-        return ResponseEntity.ok(servicioService.guardar(servicio));
+    @PostMapping // Sirve para crear un servicio nuevo usando DTO
+    public ResponseEntity<Servicio> crear(@RequestBody ServicioDTO servicioDTO) {
+        return ResponseEntity.ok(servicioService.guardar(servicioDTO));
     }
 
     @GetMapping("/{id}") // Sirve para buscar un servicio específico
@@ -40,9 +41,9 @@ public class ServicioController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/{id}") // Sirve para modificar un servicio existente
-    public ResponseEntity<Servicio> actualizar(@PathVariable Long id, @RequestBody Servicio servicio) {
-        Servicio servicioActualizado = servicioService.actualizarServicio(id, servicio);
+    @PutMapping("/{id}") // Sirve para modificar un servicio existente usando DTO
+    public ResponseEntity<Servicio> actualizar(@PathVariable Long id, @RequestBody ServicioDTO servicioDTO) {
+        Servicio servicioActualizado = servicioService.actualizarServicio(id, servicioDTO);
 
         if (servicioActualizado != null) {
             return ResponseEntity.ok(servicioActualizado);

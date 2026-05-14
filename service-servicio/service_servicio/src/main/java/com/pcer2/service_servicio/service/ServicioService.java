@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pcer2.service_servicio.dto.ServicioDTO;
 import com.pcer2.service_servicio.model.Servicio;
 import com.pcer2.service_servicio.repository.ServicioRepository;
 
@@ -15,40 +16,48 @@ public class ServicioService {
     @Autowired
     private ServicioRepository servicioRepository;
 
-    //Guarda un servicio nuevo.
-    public Servicio guardar(Servicio servicio) {
+    // Guarda un servicio nuevo usando DTO
+    public Servicio guardar(ServicioDTO servicioDTO) {
+
+        Servicio servicio = new Servicio();
+
+        servicio.setNombre(servicioDTO.getNombre());
+        servicio.setDescripcion(servicioDTO.getDescripcion());
+        servicio.setPrecioBase(servicioDTO.getPrecioBase());
+        servicio.setActivo(servicioDTO.getActivo());
+
         return servicioRepository.save(servicio);
     }
 
+    // Lista todos los servicios
     public List<Servicio> listarTodos() {
         return servicioRepository.findAll();
     }
 
-    //Busca un servicio por su id
-    public Optional<Servicio> buscarPorId(Long id) { //Usamos Optional porque puede pasar que el servicio exista o no
+    // Busca un servicio por su id
+    public Optional<Servicio> buscarPorId(Long id) {
         return servicioRepository.findById(id);
     }
 
-    //Primero busca el servicio por id para actualizar
-    public Servicio actualizarServicio(Long id, Servicio servicioActualizado) {
+    // Actualiza un servicio existente usando DTO
+    public Servicio actualizarServicio(Long id, ServicioDTO servicioDTO) {
         Optional<Servicio> servicioExistente = servicioRepository.findById(id);
 
-        //Si existe, cambia sus datos
         if (servicioExistente.isPresent()) {
             Servicio servicio = servicioExistente.get();
 
-            servicio.setNombre(servicioActualizado.getNombre());
-            servicio.setDescripcion(servicioActualizado.getDescripcion());
-            servicio.setPrecioBase(servicioActualizado.getPrecioBase());
-            servicio.setActivo(servicioActualizado.getActivo());
+            servicio.setNombre(servicioDTO.getNombre());
+            servicio.setDescripcion(servicioDTO.getDescripcion());
+            servicio.setPrecioBase(servicioDTO.getPrecioBase());
+            servicio.setActivo(servicioDTO.getActivo());
 
             return servicioRepository.save(servicio);
         }
-        //Si no existe, devuelve null
+
         return null;
     }
 
-    //Elimina un servicio según su id
+    // Elimina un servicio según su id
     public void eliminarServicio(Long id) {
         servicioRepository.deleteById(id);
     }
