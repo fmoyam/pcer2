@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import jakarta.persistence.Transient;
+
 @Entity
 @Data
 @Table(name = "ordenes_trabajo")
@@ -22,6 +24,9 @@ public class OrdenTrabajo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Transient
+    private Object datosServicio;
 
     @Column(name = "cliente_id")
     private Long clienteId;
