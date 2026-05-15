@@ -30,9 +30,9 @@ public class Voucher {
 
     private LocalDate fechaEmision;
     private String metodoPago;
-    private Double total;
+    private Double total;//precio total por servicio
     private Integer cantidadServicios;
-    private String estado;
+    private String estado;// Estado final del producto
     private String observacion;
 
     // No se guarda en la base de datos.
