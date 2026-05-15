@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.pcer2.service_orden.dto.ClienteResumenDTO;
 import com.pcer2.service_orden.dto.OrdenTrabajoDTO;
 import com.pcer2.service_orden.dto.ServicioResumenDTO;
 
@@ -96,11 +97,11 @@ public class OrdenTrabajoService {
     private void agregarDatosCliente(OrdenTrabajo ordenTrabajo) {
         if (ordenTrabajo.getClienteId() != null) {
             try {
-                Object datosCliente = webClientBuilder.build()
+                ClienteResumenDTO datosCliente = webClientBuilder.build()
                         .get()
                         .uri("http://localhost:8081/api/v1/clientes/" + ordenTrabajo.getClienteId())
                         .retrieve()
-                        .bodyToMono(Object.class)
+                        .bodyToMono(ClienteResumenDTO.class)
                         .block();
 
                 ordenTrabajo.setDatosCliente(datosCliente);

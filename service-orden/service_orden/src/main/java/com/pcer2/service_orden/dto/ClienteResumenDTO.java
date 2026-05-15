@@ -7,8 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true) //Si vienen campos extra se Ignoran
-public class ServicioResumenDTO {
-
+@JsonIgnoreProperties(ignoreUnknown = true) 
+public class ClienteResumenDTO {
+    
+    private String rut;
     private String nombre;
+    private String apellido;
+
 }
