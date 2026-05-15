@@ -33,7 +33,7 @@ public class ClienteController {
                       .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Cliente> buscarPorId(@PathVariable Long id) {
         Optional<Cliente> cliente = clienteService.buscarPorId(id);
         

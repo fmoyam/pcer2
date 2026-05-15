@@ -8,7 +8,8 @@
             "mainClass": "com.pcer2.clientes.ClientesApplication",
             "projectName": "service-clientes",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=36195 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=service-clientes"
         },
         {
             "type": "java",
@@ -17,6 +18,49 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "com.pcer2.service_equipo.ServiceEquipoApplication",
             "projectName": "service-equipo",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=36005 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=service-equipo"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ServiceServicioApplication<service_servicio>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.pcer2.service_servicio.ServiceServicioApplication",
+            "projectName": "service_servicio",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=34325 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=service_servicio"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ServiceOrdenApplication<service_orden>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.pcer2.service_orden.ServiceOrdenApplication",
+            "projectName": "service_orden",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=34815 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=service_orden"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ApiGetaweyApplication<api_getawey>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.pcer2.api_getawey.ApiGetaweyApplication",
+            "projectName": "api_getawey",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ServiceVoucherApplication<service_voucher>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.pcer2.service_voucher.ServiceVoucherApplication",
+            "projectName": "service_voucher",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }

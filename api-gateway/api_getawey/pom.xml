@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.pcer2</groupId>
-	<artifactId>api_getawey</artifactId>
+	<artifactId>api_gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>api_getawey</name>
+	<name>api_gateway</name>
 	<description/>
 	<url/>
 	<licenses>

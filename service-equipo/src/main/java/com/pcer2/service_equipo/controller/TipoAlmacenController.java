@@ -18,7 +18,7 @@ import com.pcer2.service_equipo.model.TipoAlmacen;
 import com.pcer2.service_equipo.service.TipoAlmacenService;
 
 @RestController
-@RequestMapping("/api/v2/tipoalmacen")
+@RequestMapping("/api/v1/tipoalmacen")
 public class TipoAlmacenController {
 
     @Autowired

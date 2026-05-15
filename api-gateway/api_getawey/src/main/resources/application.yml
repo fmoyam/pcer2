@@ -19,17 +19,17 @@ spring:
             - id: service-equipo
               uri: http://localhost:8082
               predicates:
-                - Path=/api/v2/equipos/**
+                - Path=/api/v1/equipos/**
 
             - id: service-equipo
               uri: http://localhost:8082
               predicates:
-                - Path=/api/v2/tipoalmacen/**
+                - Path=/api/v1/tipoalmacen/**
 
             - id: service-equipo
               uri: http://localhost:8082
               predicates:
-                - Path=/api/v2/tipoequipo/**
+                - Path=/api/v1/tipoequipo/**
 
             - id: service-servicio
               uri: http://localhost:8083
@@ -45,14 +45,3 @@ spring:
               uri: http://localhost:8085
               predicates:
                 - Path=/api/v1/vouchers/**
-
-
-            
-            
-            
-
-
-
-
-
-            

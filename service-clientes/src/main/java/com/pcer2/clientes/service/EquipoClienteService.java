@@ -19,9 +19,9 @@ public class EquipoClienteService {
                     .uri("/api/v1/equipos/cliente/{clienteId}", clienteId)
                     .retrieve()
                     .bodyToMono(new org.springframework.core.ParameterizedTypeReference<List<EquipoDTO>>() {})
-                    .block(); // block() para síncrono, en producción considera suscripción reactiva
+                    .block();
         } catch (Exception e) {
-            // Manejo de errores: si el servicio-equipo no responde, retorna lista vacía
+            // si no responde manda una lista vacía conn el msj
             System.err.println("Error al conectar con service-equipo: " + e.getMessage());
             return Collections.emptyList();
         }
