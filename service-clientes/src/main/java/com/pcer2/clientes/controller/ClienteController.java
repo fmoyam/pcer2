@@ -25,7 +25,7 @@ public class ClienteController {
         return clienteService.listarTodos();
     }
 
-    @GetMapping("/{rut}")
+    @GetMapping("/rut/{rut}")
     public ResponseEntity<Cliente> buscarPorRut(@PathVariable String rut) {
         Optional<Cliente> cliente = clienteService.buscarPorRut(rut);
         
