@@ -1,0 +1,47 @@
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      server:
+         webflux:
+            routes:
+            - id: service-clientes
+              uri: http://localhost:8081
+              predicates:
+                - Path=/api/v1/clientes/**
+
+            - id: service-equipo
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/v1/equipos/**
+
+            - id: service-equipo
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/v1/tipoalmacen/**
+
+            - id: service-equipo
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/v1/tipoequipo/**
+
+            - id: service-servicio
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/v1/servicios/**
+
+            - id: service-orden
+              uri: http://localhost:8084
+              predicates:
+                - Path=/api/v1/ordenes/**
+              
+            - id: service-voucher
+              uri: http://localhost:8085
+              predicates:
+                - Path=/api/v1/vouchers/**
