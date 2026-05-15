@@ -1,3 +1,6 @@
 # Maven
 target/
 **/target/
+# VS Code
+.vscode/
+**/.vscode/
