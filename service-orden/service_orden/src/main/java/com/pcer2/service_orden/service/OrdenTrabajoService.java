@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.pcer2.service_orden.dto.OrdenTrabajoDTO;
+import com.pcer2.service_orden.dto.ServicioResumenDTO;
+
 import com.pcer2.service_orden.model.OrdenTrabajo;
 import com.pcer2.service_orden.repository.OrdenTrabajoRepository;
 
@@ -132,11 +134,11 @@ public class OrdenTrabajoService {
     private void agregarDatosServicio(OrdenTrabajo ordenTrabajo) {
         if (ordenTrabajo.getServicioId() != null) {
             try {
-                Object datosServicio = webClientBuilder.build()
+                ServicioResumenDTO datosServicio = webClientBuilder.build()
                         .get()
                         .uri("http://localhost:8083/api/v1/servicios/" + ordenTrabajo.getServicioId())
                         .retrieve()
-                        .bodyToMono(Object.class)
+                        .bodyToMono(ServicioResumenDTO.class)
                         .block();
 
                 ordenTrabajo.setDatosServicio(datosServicio);
