@@ -8,11 +8,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import jakarta.persistence.Transient;
 
 @Entity
 @Data
@@ -25,9 +24,6 @@ public class OrdenTrabajo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Transient
-    private Object datosServicio;
-
     @Column(name = "cliente_id")
     private Long clienteId;
 
@@ -36,6 +32,15 @@ public class OrdenTrabajo {
 
     @Column(name = "servicio_id")
     private Long servicioId;
+
+    @Transient //Agregamos un dato temporal
+    private Object datosCliente;
+
+    @Transient
+    private Object datosEquipo;
+
+    @Transient
+    private Object datosServicio;
 
     @Column(name = "descripcion_problema")
     private String descripcionProblema;

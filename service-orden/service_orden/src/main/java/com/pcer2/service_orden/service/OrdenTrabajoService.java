@@ -42,13 +42,13 @@ public class OrdenTrabajoService {
         return ordenTrabajoRepository.findAll();
     }
 
-    // Busca una orden por id
+    // Busca una orden por id y agrega datos de otros microservicios
     public Optional<OrdenTrabajo> buscarPorId(Long id) {
         Optional<OrdenTrabajo> orden = ordenTrabajoRepository.findById(id);
 
         if (orden.isPresent()) {
-            OrdenTrabajo ordenConServicio = agregarDatosServicio(orden.get());
-            return Optional.of(ordenConServicio);
+            OrdenTrabajo ordenConDatos = agregarDatosExternos(orden.get());
+            return Optional.of(ordenConDatos);
         }
 
         return Optional.empty();
@@ -81,9 +81,55 @@ public class OrdenTrabajoService {
         ordenTrabajoRepository.deleteById(id);
     }
 
-    // Método auxiliar para consultar el servicio asociado
-    private OrdenTrabajo agregarDatosServicio(OrdenTrabajo ordenTrabajo) {
+    // Agrega los datos externos consultando otros microservicios
+    private OrdenTrabajo agregarDatosExternos(OrdenTrabajo ordenTrabajo) {
+        agregarDatosCliente(ordenTrabajo);
+        agregarDatosEquipo(ordenTrabajo);
+        agregarDatosServicio(ordenTrabajo);
 
+        return ordenTrabajo;
+    }
+
+    // Consulta service_clientes
+    private void agregarDatosCliente(OrdenTrabajo ordenTrabajo) {
+        if (ordenTrabajo.getClienteId() != null) {
+            try {
+                Object datosCliente = webClientBuilder.build()
+                        .get()
+                        .uri("http://localhost:8081/api/v1/clientes/" + ordenTrabajo.getClienteId())
+                        .retrieve()
+                        .bodyToMono(Object.class)
+                        .block();
+
+                ordenTrabajo.setDatosCliente(datosCliente);
+
+            } catch (Exception e) {
+                ordenTrabajo.setDatosCliente("No se pudieron obtener los datos del cliente");
+            }
+        }
+    }
+
+    // Consulta service_equipo
+    private void agregarDatosEquipo(OrdenTrabajo ordenTrabajo) {
+        if (ordenTrabajo.getEquipoId() != null) {
+            try {
+                Object datosEquipo = webClientBuilder.build()
+                        .get()
+                        .uri("http://localhost:8082/api/v1/equipos/" + ordenTrabajo.getEquipoId())
+                        .retrieve()
+                        .bodyToMono(Object.class)
+                        .block();
+
+                ordenTrabajo.setDatosEquipo(datosEquipo);
+
+            } catch (Exception e) {
+                ordenTrabajo.setDatosEquipo("No se pudieron obtener los datos del equipo");
+            }
+        }
+    }
+
+    // Consulta service_servicio
+    private void agregarDatosServicio(OrdenTrabajo ordenTrabajo) {
         if (ordenTrabajo.getServicioId() != null) {
             try {
                 Object datosServicio = webClientBuilder.build()
@@ -99,7 +145,5 @@ public class OrdenTrabajoService {
                 ordenTrabajo.setDatosServicio("No se pudieron obtener los datos del servicio");
             }
         }
-
-        return ordenTrabajo;
     }
 }
