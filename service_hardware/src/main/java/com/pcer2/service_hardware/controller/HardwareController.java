@@ -2,6 +2,7 @@ package com.pcer2.service_hardware.controller;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,10 +56,16 @@ public class HardwareController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-
-        hardwareService.eliminar(id);
-
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> eliminarHardware(@PathVariable Long id) {
+        String resultado = hardwareService.eliminar(id);
+        
+        if (resultado.contains("no encontrado")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resultado);
+        } else if (resultado.contains("Cantidad reducida")) {
+            return ResponseEntity.ok(resultado);
+        } else {
+            return ResponseEntity.ok(resultado); // 200 OK
+        }
     }
+
 }

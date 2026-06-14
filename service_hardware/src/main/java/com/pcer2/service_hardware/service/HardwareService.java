@@ -42,7 +42,22 @@ public class HardwareService {
                 .orElse(null);
     }
 
-    public void eliminar(Long id) {
+    public String eliminar(Long id) {
+        Optional<Hardware> hardwareOpt = hardwareRepository.findById(id);
+        
+        if (hardwareOpt.isEmpty()) {
+            return "Hardware no encontrado.";
+        }
+        
+        Hardware hardware = hardwareOpt.get();
+        
+        if (hardware.getCantidad() > 1) {
+            hardware.setCantidad(hardware.getCantidad() - 1);
+            hardwareRepository.save(hardware);
+            return "Cantidad reducida en 1. Nueva cantidad: " + hardware.getCantidad();
+        }
+        
         hardwareRepository.deleteById(id);
+        return "Hardware eliminado.";
     }
 }
