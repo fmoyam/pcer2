@@ -45,3 +45,8 @@ spring:
               uri: http://localhost:8085
               predicates:
                 - Path=/api/v1/vouchers/**
+
+            - id: service-hardware
+              uri: http://localhost:8087
+              predicates:
+                - Path=/api/v1/hardware/**
