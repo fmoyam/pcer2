@@ -14,6 +14,8 @@ public class OrdenTrabajoDTO {
     private Long clienteId;
     private Long equipoId;
     private Long servicioId;
+    private Long softwareId;
+    private Long productoMantenimientoId;
     private String descripcionProblema;
     private LocalDate fechaIngreso;
     private LocalDate fechaEntregaEstimada;

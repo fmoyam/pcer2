@@ -9,7 +9,7 @@ spring:
   cloud:
     gateway:
       server:
-         webflux:
+        webflux:
             routes:
             - id: service-clientes
               uri: http://localhost:8081
@@ -45,3 +45,18 @@ spring:
               uri: http://localhost:8085
               predicates:
                 - Path=/api/v1/vouchers/**
+
+            - id: service-hardware
+              uri: http://localhost:8087
+              predicates:
+                - Path=/api/v1/hardware/**
+                
+            - id: service-software
+              uri: http://localhost:8088
+              predicates:
+                - Path=/api/v1/software/**
+            
+            - id: service-mantenimiento
+              uri: http://localhost:8089
+              predicates:
+                - Path=/api/v1/mantenimiento/**
