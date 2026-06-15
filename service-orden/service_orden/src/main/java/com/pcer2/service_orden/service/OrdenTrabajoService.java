@@ -31,6 +31,8 @@ public class OrdenTrabajoService {
         ordenTrabajo.setClienteId(ordenTrabajoDTO.getClienteId());
         ordenTrabajo.setEquipoId(ordenTrabajoDTO.getEquipoId());
         ordenTrabajo.setServicioId(ordenTrabajoDTO.getServicioId());
+        ordenTrabajo.setSoftwareId(ordenTrabajoDTO.getSoftwareId());//nuevo
+        ordenTrabajo.setProductoMantenimientoId(ordenTrabajoDTO.getProductoMantenimientoId());//nuevo
         ordenTrabajo.setDescripcionProblema(ordenTrabajoDTO.getDescripcionProblema());
         ordenTrabajo.setFechaIngreso(ordenTrabajoDTO.getFechaIngreso());
         ordenTrabajo.setFechaEntregaEstimada(ordenTrabajoDTO.getFechaEntregaEstimada());
@@ -67,6 +69,8 @@ public class OrdenTrabajoService {
             ordenTrabajo.setClienteId(ordenTrabajoDTO.getClienteId());
             ordenTrabajo.setEquipoId(ordenTrabajoDTO.getEquipoId());
             ordenTrabajo.setServicioId(ordenTrabajoDTO.getServicioId());
+            ordenTrabajo.setSoftwareId(ordenTrabajoDTO.getSoftwareId());//nuevo
+            ordenTrabajo.setProductoMantenimientoId(ordenTrabajoDTO.getProductoMantenimientoId());//nuevo
             ordenTrabajo.setDescripcionProblema(ordenTrabajoDTO.getDescripcionProblema());
             ordenTrabajo.setFechaIngreso(ordenTrabajoDTO.getFechaIngreso());
             ordenTrabajo.setFechaEntregaEstimada(ordenTrabajoDTO.getFechaEntregaEstimada());
@@ -89,7 +93,8 @@ public class OrdenTrabajoService {
         agregarDatosCliente(ordenTrabajo);
         agregarDatosEquipo(ordenTrabajo);
         agregarDatosServicio(ordenTrabajo);
-
+        agregarDatosSoftware(ordenTrabajo);
+        agregarDatosProductoMantenimiento(ordenTrabajo);
         return ordenTrabajo;
     }
 
@@ -146,6 +151,44 @@ public class OrdenTrabajoService {
 
             } catch (Exception e) {
                 ordenTrabajo.setDatosServicio("No se pudieron obtener los datos del servicio");
+            }
+        }
+    }
+
+     // Consulta service_software
+    private void agregarDatosSoftware(OrdenTrabajo ordenTrabajo) {
+        if (ordenTrabajo.getSoftwareId() != null) {
+            try {
+                Object datosSoftware = webClientBuilder.build()
+                        .get()
+                        .uri("http://localhost:8088/api/v1/software/" + ordenTrabajo.getSoftwareId())
+                        .retrieve()
+                        .bodyToMono(Object.class)
+                        .block();
+
+                ordenTrabajo.setDatosSoftware(datosSoftware);
+
+            } catch (Exception e) {
+                ordenTrabajo.setDatosSoftware("No se pudieron obtener los datos del software");
+            }
+        }
+    }
+
+     // Consulta service-mantenimiento
+    private void agregarDatosProductoMantenimiento(OrdenTrabajo ordenTrabajo) {
+        if (ordenTrabajo.getProductoMantenimientoId() != null) {
+            try {
+                Object datosProductoMantenimiento = webClientBuilder.build()
+                        .get()
+                        .uri("http://localhost:8089/api/v1/mantenimiento/" + ordenTrabajo.getProductoMantenimientoId())
+                        .retrieve()
+                        .bodyToMono(Object.class)
+                        .block();
+
+                ordenTrabajo.setDatosProductoMantenimiento(datosProductoMantenimiento);
+
+            } catch (Exception e) {
+                ordenTrabajo.setDatosProductoMantenimiento("No se pudieron obtener los datos del producto de mantenimiento");
             }
         }
     }

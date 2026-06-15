@@ -33,14 +33,11 @@ public class OrdenTrabajo {
     @Column(name = "servicio_id")
     private Long servicioId;
 
-    @Transient //Agregamos un dato temporal
-    private Object datosCliente;
+    @Column(name = "software_id")
+    private Long softwareId;    //MS nuevos
 
-    @Transient
-    private Object datosEquipo;
-
-    @Transient
-    private Object datosServicio;
+    @Column(name = "producto_mantenimiento_id")
+    private Long productoMantenimientoId;    //MS nuevos
 
     @Column(name = "descripcion_problema")
     private String descripcionProblema;
@@ -55,4 +52,20 @@ public class OrdenTrabajo {
 
     @Column(name = "precio_total")
     private Double precioTotal;
+
+    @Transient
+    private Object datosCliente;
+
+    @Transient
+    private Object datosEquipo;
+
+    @Transient
+    private Object datosServicio;
+
+    //MS nuevos
+    @Transient
+    private Object datosSoftware;
+
+    @Transient
+    private Object datosProductoMantenimiento;
 }
