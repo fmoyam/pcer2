@@ -46,6 +46,11 @@ spring:
               predicates:
                 - Path=/api/v1/vouchers/**
 
+            - id: service-estadisticas
+              uri: http://localhost:8086
+              predicates:
+                - Path=/api/v1/estadisticas/**                
+
             - id: service-hardware
               uri: http://localhost:8087
               predicates:
