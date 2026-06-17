@@ -54,6 +54,11 @@ spring:
               uri: http://localhost:8089
               predicates:
                 - Path=/api/v1/mantenimiento/**
+            
+            - id: service-descuento
+              uri: http://localhost:8090
+              predicates:
+                - Path=/api/v1/descuento/**
 
 springdoc:
   swagger-ui:
@@ -66,3 +71,5 @@ springdoc:
         url: /api/v1/software/v3/api-docs
       - name: Mantenimiento
         url: /api/v1/mantenimiento/v3/api-docs
+      - name: descuento
+        url: /api/v1/descuento/v3/api-docs
