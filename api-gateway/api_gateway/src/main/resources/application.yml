@@ -1,4 +1,3 @@
-
 server:
   port: 8080
 
@@ -10,7 +9,7 @@ spring:
     gateway:
       server:
         webflux:
-            routes:
+          routes:
             - id: service-clientes
               uri: http://localhost:8081
               predicates:
@@ -30,7 +29,7 @@ spring:
               uri: http://localhost:8084
               predicates:
                 - Path=/api/v1/ordenes/**
-              
+
             - id: service-voucher
               uri: http://localhost:8085
               predicates:
@@ -39,19 +38,31 @@ spring:
             - id: service-estadisticas
               uri: http://localhost:8086
               predicates:
-                - Path=/api/v1/estadisticas/**                
+                - Path=/api/v1/estadisticas/**
 
             - id: service-hardware
               uri: http://localhost:8087
               predicates:
                 - Path=/api/v1/hardware/**
-                
+
             - id: service-software
               uri: http://localhost:8088
               predicates:
                 - Path=/api/v1/software/**
-            
+
             - id: service-mantenimiento
               uri: http://localhost:8089
               predicates:
                 - Path=/api/v1/mantenimiento/**
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: Servicio Técnico
+        url: /api/v1/servicios/v3/api-docs
+      - name: Órdenes de Trabajo
+        url: /api/v1/ordenes/v3/api-docs
+      - name: Software
+        url: /api/v1/software/v3/api-docs
+      - name: Mantenimiento
+        url: /api/v1/mantenimiento/v3/api-docs
