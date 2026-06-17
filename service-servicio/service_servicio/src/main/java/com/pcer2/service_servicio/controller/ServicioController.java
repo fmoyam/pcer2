@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,24 +18,32 @@ import com.pcer2.service_servicio.dto.ServicioDTO;
 import com.pcer2.service_servicio.model.Servicio;
 import com.pcer2.service_servicio.service.ServicioService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController // Esta clase recibirá peticiones web
 @RequestMapping("/api/v1/servicios") // Todos los endpoints empiezan con /api/v1/servicios
+@CrossOrigin(origins = "*")
+@Tag(name = "Gestión de Servicios Técnicos", description = "Endpoints para administrar servicios técnicos disponibles")
 public class ServicioController {
 
     @Autowired
     private ServicioService servicioService;
 
     @GetMapping // Sirve para listar todos los servicios
+    @Operation(summary = "Listar servicios técnicos", description = "Obtiene todos los servicios técnicos registrados en el sistema")
     public List<Servicio> listar() {
         return servicioService.listarTodos();
     }
 
     @PostMapping // Sirve para crear un servicio nuevo usando DTO
+    @Operation(summary = "Crear servicio técnico", description = "Registra un nuevo servicio técnico disponible para órdenes de trabajo")
     public ResponseEntity<Servicio> crear(@RequestBody ServicioDTO servicioDTO) {
         return ResponseEntity.ok(servicioService.guardar(servicioDTO));
     }
 
     @GetMapping("/{id}") // Sirve para buscar un servicio específico
+    @Operation(summary = "Buscar servicio técnico por ID", description = "Obtiene un servicio técnico específico según su ID")
     public ResponseEntity<Servicio> obtenerPorId(@PathVariable Long id) {
         return servicioService.buscarPorId(id)
                 .map(ResponseEntity::ok)
@@ -42,6 +51,7 @@ public class ServicioController {
     }
 
     @PutMapping("/{id}") // Sirve para modificar un servicio existente usando DTO
+    @Operation(summary = "Actualizar servicio técnico", description = "Actualiza los datos de un servicio técnico existente")
     public ResponseEntity<Servicio> actualizar(@PathVariable Long id, @RequestBody ServicioDTO servicioDTO) {
         Servicio servicioActualizado = servicioService.actualizarServicio(id, servicioDTO);
 
@@ -53,6 +63,7 @@ public class ServicioController {
     }
 
     @DeleteMapping("/{id}") // Sirve para eliminar un servicio existente
+    @Operation(summary = "Eliminar servicio técnico", description = "Elimina un servicio técnico según su ID")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         servicioService.eliminarServicio(id);
         return ResponseEntity.noContent().build();
