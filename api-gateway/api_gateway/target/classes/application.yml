@@ -1,4 +1,3 @@
-
 server:
   port: 8080
 
@@ -9,54 +8,149 @@ spring:
   cloud:
     gateway:
       server:
-         webflux:
-            routes:
+        webflux:
+
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowedOrigins:
+                  - http://localhost:8080
+                allowedMethods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - OPTIONS
+                allowedHeaders: "*"
+
+          routes:
+
+            # CLIENTES
             - id: service-clientes
               uri: http://localhost:8081
               predicates:
                 - Path=/api/v1/clientes/**
 
-            - id: service-equipo
+            - id: clientes-docs
+              uri: http://localhost:8081
+              predicates:
+                - Path=/api/v1/clientes/v3/api-docs
+
+            # EQUIPOS
+            - id: service-equipos
               uri: http://localhost:8082
               predicates:
                 - Path=/api/v1/equipos/**
 
-            - id: service-equipo
+            - id: service-tipoalmacen
               uri: http://localhost:8082
               predicates:
                 - Path=/api/v1/tipoalmacen/**
 
-            - id: service-equipo
+            - id: service-tipoequipo
               uri: http://localhost:8082
               predicates:
                 - Path=/api/v1/tipoequipo/**
 
+            - id: equipos-docs
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/v1/equipos/v3/api-docs
+
+            # SERVICIOS
             - id: service-servicio
               uri: http://localhost:8083
               predicates:
                 - Path=/api/v1/servicios/**
 
+            - id: servicios-docs
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/v1/servicios/v3/api-docs
+
+            # ORDENES
             - id: service-orden
               uri: http://localhost:8084
               predicates:
                 - Path=/api/v1/ordenes/**
-              
+
+            - id: ordenes-docs
+              uri: http://localhost:8084
+              predicates:
+                - Path=/api/v1/ordenes/v3/api-docs
+
+            # VOUCHERS
             - id: service-voucher
               uri: http://localhost:8085
               predicates:
                 - Path=/api/v1/vouchers/**
 
+            - id: vouchers-docs
+              uri: http://localhost:8085
+              predicates:
+                - Path=/api/v1/vouchers/v3/api-docs
+
+            # ESTADISTICAS
             - id: service-estadisticas
               uri: http://localhost:8086
               predicates:
-                - Path=/api/v1/estadisticas/**                
+                - Path=/api/v1/estadisticas/**
 
+            - id: estadisticas-docs
+              uri: http://localhost:8086
+              predicates:
+                - Path=/api/v1/estadisticas/v3/api-docs
+
+            # HARDWARE
             - id: service-hardware
               uri: http://localhost:8087
               predicates:
                 - Path=/api/v1/hardware/**
-                
+
+            - id: hardware-docs
+              uri: http://localhost:8087
+              predicates:
+                - Path=/api/v1/hardware/v3/api-docs
+
+            # SOFTWARE
             - id: service-software
               uri: http://localhost:8088
               predicates:
                 - Path=/api/v1/software/**
+
+            - id: software-docs
+              uri: http://localhost:8088
+              predicates:
+                - Path=/api/v1/software/v3/api-docs
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: Servicio Clientes
+        url: /api/v1/clientes/v3/api-docs
+
+      - name: Servicio Equipos
+        url: /api/v1/equipos/v3/api-docs
+
+      - name: Servicio Servicios
+        url: /api/v1/servicios/v3/api-docs
+
+      - name: Servicio Ordenes
+        url: /api/v1/ordenes/v3/api-docs
+
+      - name: Servicio Vouchers
+        url: /api/v1/vouchers/v3/api-docs
+
+      - name: Servicio Estadisticas
+        url: /api/v1/estadisticas/v3/api-docs
+
+      - name: Servicio Hardware
+        url: /api/v1/hardware/v3/api-docs
+
+      - name: Servicio Software
+        url: /api/v1/software/v3/api-docs

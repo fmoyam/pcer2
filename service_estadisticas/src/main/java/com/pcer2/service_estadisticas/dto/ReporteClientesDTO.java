@@ -22,3 +22,4 @@ public class ReporteClientesDTO {
     private Integer cantidadEquiposClienteMasEquipos;
 
 }
+

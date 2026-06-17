@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import com.pcer2.service_estadisticas.model.Estadistica;
 import com.pcer2.service_estadisticas.service.EstadisticasService;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/estadisticas")
 public class EstadisticaController {
