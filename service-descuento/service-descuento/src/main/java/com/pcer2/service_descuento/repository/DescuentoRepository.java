@@ -11,4 +11,6 @@ import com.pcer2.service_descuento.model.Descuento;
 public interface DescuentoRepository extends JpaRepository<Descuento, Long>{
 
     Optional<Descuento> findByCodigo(String codigo);
+
+    boolean existsByCodigo(String codigo);
 }

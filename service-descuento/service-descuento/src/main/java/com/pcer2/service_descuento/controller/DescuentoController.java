@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pcer2.service_descuento.dto.DescuentoDto;
 import com.pcer2.service_descuento.model.Descuento;
 import com.pcer2.service_descuento.service.DescuentoService;
 
@@ -32,13 +33,20 @@ public class DescuentoController {
     }
 
     @PostMapping
-    public Descuento crear(@RequestBody Descuento descuento) {
-    return descuentoService.guardar(descuento);
+    public Descuento crear(@RequestBody DescuentoDto dto) {
+    return descuentoService.guardar(dto);
     }
 
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id) {
         descuentoService.eliminar(id);
+    }
+
+    @GetMapping("/validar/{codigo}")
+    public boolean validarCodigo(
+            @PathVariable String codigo) {
+
+        return descuentoService.esValido(codigo);
     }
 
 }
