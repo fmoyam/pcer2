@@ -1,5 +1,5 @@
 server:
-  port: 8092
+  port: 8080
 
 jwt:
   secret: "493358340235739058340598340598340598340598340598"
@@ -84,7 +84,7 @@ spring:
         - id: service-auth
           uri: http://localhost:8091
           predicates:
-            - Path=/auth/**
+            - Path=/api/v1/auth/**
 
 eureka:
   client:
