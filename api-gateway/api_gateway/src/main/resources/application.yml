@@ -1,64 +1,95 @@
 server:
-  port: 8080
+  port: 8092
+
+jwt:
+  secret: "493358340235739058340598340598340598340598340598"
 
 spring:
   application:
     name: api-gateway
-
   cloud:
     gateway:
-      server:
-        webflux:
-          routes:
-            - id: service-clientes
-              uri: http://localhost:8081
-              predicates:
-                - Path=/api/v1/clientes/**
+      routes: # CORREGIDO: Raíz directa correcta para Spring Cloud Gateway
+        - id: service-clientes
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/clientes/**
+          filters:
+            - AuthenticationFilter
 
-            - id: service-equipo
-              uri: http://localhost:8082
-              predicates:
-                - Path=/api/v1/equipos/**
+        - id: service-equipo
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/equipos/**
+          filters:
+            - AuthenticationFilter
 
-            - id: service-servicio
-              uri: http://localhost:8083
-              predicates:
-                - Path=/api/v1/servicios/**
+        - id: service-servicio
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/v1/servicios/**
+          filters:
+            - AuthenticationFilter
 
-            - id: service-orden
-              uri: http://localhost:8084
-              predicates:
-                - Path=/api/v1/ordenes/**
+        - id: service-orden
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/v1/ordenes/**
+          filters:
+            - AuthenticationFilter
 
-            - id: service-voucher
-              uri: http://localhost:8085
-              predicates:
-                - Path=/api/v1/vouchers/**
+        - id: service-voucher
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/v1/vouchers/**
+          filters:
+            - AuthenticationFilter
 
-            - id: service-estadisticas
-              uri: http://localhost:8086
-              predicates:
-                - Path=/api/v1/estadisticas/**
+        - id: service-estadisticas
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/v1/estadisticas/**
+          filters:
+            - AuthenticationFilter
 
-            - id: service-hardware
-              uri: http://localhost:8087
-              predicates:
-                - Path=/api/v1/hardware/**
+        - id: service-hardware
+          uri: http://localhost:8087
+          predicates:
+            - Path=/api/v1/hardware/**
+          filters:
+            - AuthenticationFilter
 
-            - id: service-software
-              uri: http://localhost:8088
-              predicates:
-                - Path=/api/v1/software/**
+        - id: service-software
+          uri: http://localhost:8088
+          predicates:
+            - Path=/api/v1/software/**
+          filters:
+            - AuthenticationFilter
 
-            - id: service-mantenimiento
-              uri: http://localhost:8089
-              predicates:
-                - Path=/api/v1/mantenimiento/**
+        - id: service-mantenimiento
+          uri: http://localhost:8089
+          predicates:
+            - Path=/api/v1/mantenimiento/**
+          filters:
+            - AuthenticationFilter
             
-            - id: service-descuento
-              uri: http://localhost:8090
-              predicates:
-                - Path=/api/v1/descuento/**
+        - id: service-descuento
+          uri: http://localhost:8090
+          predicates:
+            - Path=/api/v1/descuento/**
+          filters:
+            - AuthenticationFilter
+
+        # La ruta de autenticación queda limpia SIN filtros para poder iniciar sesión libremente
+        - id: service-auth
+          uri: http://localhost:8091
+          predicates:
+            - Path=/auth/**
+
+eureka:
+  client:
+    register-with-eureka: false # Corregido typo "wiht"
+    fetch-registry: false
 
 springdoc:
   swagger-ui:
@@ -73,3 +104,8 @@ springdoc:
         url: /api/v1/mantenimiento/v3/api-docs
       - name: descuento
         url: /api/v1/descuento/v3/api-docs
+
+logging:
+  level: 
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
