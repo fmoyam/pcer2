@@ -3,17 +3,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.pcer2.service_equipo.model.Equipo;
 import com.pcer2.service_equipo.service.EquipoService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/equipos")
 public class EquipoController {
@@ -21,12 +17,13 @@ public class EquipoController {
     @Autowired
     private EquipoService equipoService;
 
+    @Operation(summary = "Lista todos los equipos", description = "Obtiene todos los equipos presentes en BD 'pc_equipos'.")
     @GetMapping
     public List<Equipo> listar() {
         return equipoService.listarTodos();
     }
     
-    // Buscar equipo por ID
+    @Operation(summary = "Busca un equipo mediante su ID", description = "Filtra equipos mediante ID en la BD 'pc_equipos'.")
     @GetMapping("/{id}")
     public ResponseEntity<Equipo> buscarPorId(@PathVariable Long id) {
         return equipoService.findById(id)
@@ -34,14 +31,14 @@ public class EquipoController {
                             .orElse(ResponseEntity.notFound().build());
     }
 
-    // Obtener equipos por id cliente
+    @Operation(summary = "Lista todos los equipos de una ID de cliente especifico", description = "Filtra equipos mediante el ID de su dueño y retorna la lista.")
     @GetMapping("/cliente/{clienteId}")
     public ResponseEntity<List<Equipo>> getEquiposByClienteId(@PathVariable Long clienteId) {
         List<Equipo> equipos = equipoService.findByClienteId(clienteId);
         return ResponseEntity.ok(equipos);
     }    
     
-    // Buscar equipo por número de serie
+    @Operation(summary = "Busca un equipo mediante su numero de serie", description = "Filtra equipos mediante su serial en la BD 'pc_equipos'.")
     @GetMapping("/serie/{numeroserie}")
     public ResponseEntity<Equipo> buscarPorNumeroSerie(@PathVariable String numeroserie) {
         return equipoService.buscarPorNumeroSerie(numeroserie)
@@ -49,7 +46,7 @@ public class EquipoController {
                             .orElse(ResponseEntity.notFound().build());
     }
     
-    // Buscar por marca
+    @Operation(summary = "Busca equipos mediante su marca", description = "Filtra equipos por fabricante en la BD 'pc_equipos' y retorna la lista.")
     @GetMapping("/marca/{marca}")
     public ResponseEntity<List<Equipo>> buscarPorMarca(@PathVariable String marca) {
         List<Equipo> equipos = equipoService.buscarPorMarca(marca);
@@ -59,7 +56,7 @@ public class EquipoController {
         return ResponseEntity.ok(equipos);
     }
     
-    // Crear nuevo equipo
+    @Operation(summary = "Crea un nuevo equipo", description = "Guarda los datos del nuevo equipo en BD 'pc_equipos'.")
     @PostMapping
     public ResponseEntity<Equipo> crear(@RequestBody Equipo equipo) {
         try {
@@ -70,7 +67,7 @@ public class EquipoController {
         }
     }
 
-    // Método específico para crear equipo con clienteId
+    @Operation(summary = "Crea un nuevo equipo para un cliente especifico", description = "Guarda el nuevo equipo y lo vincula a un cliente de inmediato.")
     @PostMapping("/cliente/{clienteId}")
     public ResponseEntity<Equipo> createEquipoForCliente(
             @PathVariable Long clienteId, 
@@ -80,7 +77,7 @@ public class EquipoController {
         return new ResponseEntity<>(savedEquipo, HttpStatus.CREATED);
     }   
     
-    // Actualizar equipo existente
+    @Operation(summary = "Actualiza los datos de un equipo existente", description = "Se busca un equipo mediante su ID y se actualizan sus datos.")
     @PutMapping("/{id}")
     public ResponseEntity<Equipo> updateEquipo(@PathVariable Long id, @RequestBody Equipo equipo) {
         return equipoService.findById(id)
@@ -92,7 +89,7 @@ public class EquipoController {
                 .orElse(ResponseEntity.notFound().build());
     }
     
-    // Eliminar equipo
+    @Operation(summary = "Elimina un equipo mediante su ID", description = "Elimina los datos de un equipo en BD 'pc_equipos'.")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         try {
