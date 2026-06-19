@@ -94,16 +94,38 @@ eureka:
 springdoc:
   swagger-ui:
     urls:
+      - name: Clientes
+        url: /api/v1/clientes/v3/api-docs
+
+      - name: Equipos
+        url: /api/v1/equipos/v3/api-docs
+
       - name: Servicio Técnico
         url: /api/v1/servicios/v3/api-docs
+
       - name: Órdenes de Trabajo
         url: /api/v1/ordenes/v3/api-docs
+
+      - name: Voucher
+        url: /api/v1/vouchers/v3/api-docs
+
+      - name: Estadísticas
+        url: /api/v1/estadisticas/v3/api-docs
+
+      - name: Hardware
+        url: /api/v1/hardware/v3/api-docs
+
       - name: Software
         url: /api/v1/software/v3/api-docs
+
       - name: Mantenimiento
         url: /api/v1/mantenimiento/v3/api-docs
-      - name: descuento
+
+      - name: Descuento
         url: /api/v1/descuento/v3/api-docs
+
+      - name: Auth
+        url: /api/v1/auth/v3/api-docs
 
 logging:
   level: 
