@@ -2,7 +2,6 @@ package com.pcer2.service_software.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -18,9 +17,9 @@ public class OpenApiConfig {
         return new OpenAPI()
                 // Datos que se mostrarán en la parte superior de Swagger
                 .info(new Info()
-                        .title("API Software")
+                        .title("API PCer2 - Gestión de Software")
                         .version("1.0")
-                        .description("Documentación del microservicio de licencias de software"))
+                        .description("Documentación del microservicio de licencias de software ofrecidas por PCer2"))
 
                 // Le dice a Swagger que la API usa token JWT
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))

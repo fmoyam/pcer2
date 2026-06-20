@@ -1,4 +1,4 @@
-package com.pcer2.service_hardware.config;
+package com.pcer2.service_descuento.config;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
@@ -15,9 +15,9 @@ public class OpenApiConfig {
         return new OpenAPI()
                 // info general que se muestra arriba en Swagger
                 .info(new Info()
-                        .title("API PCer2 - Gestión de Hardware")
+                        .title("API PCer2 - Gestión de Descuentos")
                         .version("1.0")
-                        .description("Documentación del microservicio de hardware ofrecido por PCer2"))
+                        .description("Documentación del microservicio de descuentos ofrecidos por PCer2"))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))  // Indica que los endpoints usan seguridad tipo Bearer Token
                 .components(new Components()  // Configura el tipo de seguridad JWT para Swagger
                         .addSecuritySchemes("bearerAuth",

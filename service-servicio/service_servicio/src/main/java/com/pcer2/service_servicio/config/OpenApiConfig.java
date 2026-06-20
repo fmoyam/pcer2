@@ -2,7 +2,6 @@ package com.pcer2.service_servicio.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -16,29 +15,18 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
 
         return new OpenAPI()
-                // Información general que se muestra arriba en Swagger
+                // info general que se muestra arriba en Swagger
                 .info(new Info()
-                        .title("API Servicio Técnico")
+                        .title("API PCer2 - Gestión de Servicios")
                         .version("1.0")
-                        .description("Documentación del microservicio de servicios técnicos"))
-
-                // Indica que los endpoints usan seguridad tipo Bearer Token
-                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
-
-                // Configura el tipo de seguridad JWT para Swagger
-                .components(new Components()
+                        .description("Documentación del microservicio de servicios ofrecidos por PCer2"))
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))  // Indica que los endpoints usan seguridad tipo Bearer Token
+                .components(new Components()  // Configura el tipo de seguridad JWT para Swagger
                         .addSecuritySchemes("bearerAuth",
                                 new SecurityScheme()
-                                        // Nombre interno de la seguridad
                                         .name("bearerAuth")
-
-                                        // Tipo HTTP porque se envía por header Authorization
                                         .type(SecurityScheme.Type.HTTP)
-
-                                        // Esquema bearer, usado en JWT
-                                        .scheme("bearer")
-
-                                        // Indica que el token es JWT
-                                        .bearerFormat("JWT")));
+                                        .scheme("bearer") // Esquema bearer, usado en JWT
+                                        .bearerFormat("JWT"))); // Indica que el token es JWT
     }
 }

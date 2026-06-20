@@ -1,4 +1,4 @@
-package com.pcer2.service_mantenimiento.config;
+package com.pcer2.service_voucher.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,16 +15,16 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
 
         return new OpenAPI()
-                // Información principal que aparece en Swagger
+                // Datos que se mostrarán en la parte superior de Swagger
                 .info(new Info()
-                        .title("API Productos de Mantenimiento")
+                        .title("API PCer2 - Gestión de Vouchers")
                         .version("1.0")
-                        .description("Documentación del microservicio de productos e insumos de mantenimiento"))
+                        .description("Documentación del microservicio de vouchers para clientes de PCer2"))
 
-                // Indica que Swagger debe considerar autenticación JWT
+                // Le dice a Swagger que la API usa token JWT
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
 
-                // Define el esquema Bearer Token para JWT
+                // Configuración para que aparezca el botón Authorize
                 .components(new Components()
                         .addSecuritySchemes("bearerAuth",
                                 new SecurityScheme()

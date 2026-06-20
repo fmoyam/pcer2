@@ -2,10 +2,8 @@ package com.pcer2.service_voucher.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
 import com.pcer2.service_voucher.dto.VoucherDTO;
 import com.pcer2.service_voucher.model.Voucher;
 import com.pcer2.service_voucher.repository.VoucherRepository;
@@ -13,7 +11,7 @@ import com.pcer2.service_voucher.repository.VoucherRepository;
 @Service
 public class VoucherService {
 
-     private final VoucherRepository voucherRepository;
+    private final VoucherRepository voucherRepository;
     private final WebClient webClient;
 
     public VoucherService(VoucherRepository voucherRepository, WebClient webClient) {

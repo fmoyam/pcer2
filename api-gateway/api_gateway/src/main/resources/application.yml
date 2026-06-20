@@ -7,88 +7,90 @@ jwt:
 spring:
   application:
     name: api-gateway
+
   cloud:
     gateway:
-      routes: # CORREGIDO: Raíz directa correcta para Spring Cloud Gateway
-        - id: service-clientes
-          uri: http://localhost:8081
-          predicates:
-            - Path=/api/v1/clientes/**
-          filters:
-            - AuthenticationFilter
+      server:
+        webflux:
+          routes:
+            - id: service-clientes
+              uri: http://localhost:8081
+              predicates:
+                - Path=/api/v1/clientes/**
+              filters:
+                - AuthenticationFilter
 
-        - id: service-equipo
-          uri: http://localhost:8082
-          predicates:
-            - Path=/api/v1/equipos/**
-          filters:
-            - AuthenticationFilter
+            - id: service-equipo
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/v1/equipos/**
+              filters:
+                - AuthenticationFilter
 
-        - id: service-servicio
-          uri: http://localhost:8083
-          predicates:
-            - Path=/api/v1/servicios/**
-          filters:
-            - AuthenticationFilter
+            - id: service-servicio
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/v1/servicios/**
+              filters:
+                - AuthenticationFilter
 
-        - id: service-orden
-          uri: http://localhost:8084
-          predicates:
-            - Path=/api/v1/ordenes/**
-          filters:
-            - AuthenticationFilter
+            - id: service-orden
+              uri: http://localhost:8084
+              predicates:
+                - Path=/api/v1/ordenes/**
+              filters:
+                - AuthenticationFilter
 
-        - id: service-voucher
-          uri: http://localhost:8085
-          predicates:
-            - Path=/api/v1/vouchers/**
-          filters:
-            - AuthenticationFilter
+            - id: service-voucher
+              uri: http://localhost:8085
+              predicates:
+                - Path=/api/v1/vouchers/**
+              filters:
+                - AuthenticationFilter
 
-        - id: service-estadisticas
-          uri: http://localhost:8086
-          predicates:
-            - Path=/api/v1/estadisticas/**
-          filters:
-            - AuthenticationFilter
+            - id: service-estadisticas
+              uri: http://localhost:8086
+              predicates:
+                - Path=/api/v1/estadisticas/**
+              filters:
+                - AuthenticationFilter
 
-        - id: service-hardware
-          uri: http://localhost:8087
-          predicates:
-            - Path=/api/v1/hardware/**
-          filters:
-            - AuthenticationFilter
+            - id: service-hardware
+              uri: http://localhost:8087
+              predicates:
+                - Path=/api/v1/hardware/**
+              filters:
+                - AuthenticationFilter
 
-        - id: service-software
-          uri: http://localhost:8088
-          predicates:
-            - Path=/api/v1/software/**
-          filters:
-            - AuthenticationFilter
+            - id: service-software
+              uri: http://localhost:8088
+              predicates:
+                - Path=/api/v1/software/**
+              filters:
+                - AuthenticationFilter
 
-        - id: service-mantenimiento
-          uri: http://localhost:8089
-          predicates:
-            - Path=/api/v1/mantenimiento/**
-          filters:
-            - AuthenticationFilter
-            
-        - id: service-descuento
-          uri: http://localhost:8090
-          predicates:
-            - Path=/api/v1/descuento/**
-          filters:
-            - AuthenticationFilter
+            - id: service-mantenimiento
+              uri: http://localhost:8089
+              predicates:
+                - Path=/api/v1/mantenimiento/**
+              filters:
+                - AuthenticationFilter
 
-        # La ruta de autenticación queda limpia SIN filtros para poder iniciar sesión libremente
-        - id: service-auth
-          uri: http://localhost:8091
-          predicates:
-            - Path=/api/v1/auth/**
+            - id: service-descuento
+              uri: http://localhost:8090
+              predicates:
+                - Path=/api/v1/descuento/**
+              filters:
+                - AuthenticationFilter
+
+            - id: service-auth
+              uri: http://localhost:8091
+              predicates:
+                - Path=/api/v1/auth/**
 
 eureka:
   client:
-    register-with-eureka: false # Corregido typo "wiht"
+    register-with-eureka: false
     fetch-registry: false
 
 springdoc:
@@ -128,6 +130,6 @@ springdoc:
         url: /api/v1/auth/v3/api-docs
 
 logging:
-  level: 
+  level:
     org.springframework.cloud.gateway: TRACE
     org.springframework.http.server.reactive: DEBUG
