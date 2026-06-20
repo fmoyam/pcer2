@@ -4,10 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 
-@Configuration //Esta clase tiene configuraciones del proyecto
+@Configuration 
 public class WebClientConfig {
 
-    @Bean //Guarda este objeto para poder usarlo después en otras clases
+    @Bean 
     public WebClient.Builder webClientBuilder() {
         return WebClient.builder();
     }

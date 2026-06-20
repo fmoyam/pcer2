@@ -1,7 +1,6 @@
 package com.pcer2.api_gateway.config;
 
 import java.nio.charset.StandardCharsets;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
-
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import reactor.core.publisher.Mono;
@@ -45,7 +43,6 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
             String path = exchange.getRequest().getURI().getPath();
 
-            // Rutas públicas: auth y documentación Swagger
             if (path.contains("/v3/api-docs") ||
                     path.contains("/swagger-ui") ||
                     path.contains("/swagger-ui.html") ||
@@ -57,12 +54,10 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     .getHeaders()
                     .getFirst(HttpHeaders.AUTHORIZATION);
 
-            // Validamos que exista el token y que venga con formato Bearer
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 return onError(exchange, "Token faltante o formato inválido", HttpStatus.UNAUTHORIZED);
             }
 
-            // Quitamos la palabra "Bearer " y dejamos solo el token
             String token = authHeader.substring(7);
 
             try {

@@ -2,10 +2,8 @@ package com.pcer2.service_software.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.pcer2.service_software.dto.LicenciaSoftwareDTO;
 import com.pcer2.service_software.model.LicenciaSoftware;
 import com.pcer2.service_software.repository.LicenciaSoftwareRepository;
