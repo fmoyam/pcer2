@@ -1,7 +1,7 @@
 package com.pcer2.api_gateway.config;
 
 import java.nio.charset.StandardCharsets;
-import io.jsonwebtoken.security.Keys;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -10,54 +10,77 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import reactor.core.publisher.Mono;
 
 @Component
-public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config>{
+public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
 
     @Value("${jwt.secret:493358340235739058340598340598340598340598340598}")
     private String secreto;
-    public AuthenticationFilter(){
+
+    public AuthenticationFilter() {
         super(Config.class);
     }
-    public static class Config{
+
+    public static class Config {
         private String name;
 
-        public Config() {}
+        public Config() {
+        }
 
-        public String getName() { return name; }
-        public void setName(String name) { this.name = name; }
-        //configuracion adicional si fuera necesaria
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
+
     @Override
-    public GatewayFilter apply(Config config)
-    {
-        return (exchange, chain) ->
-        {
-            String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION); 
-            if (authHeader == null || !authHeader.startsWith("Bearer"))
-            {
-                return onError(exchange, "Token faltante o formato invalido", HttpStatus.UNAUTHORIZED);
+    public GatewayFilter apply(Config config) {
+        return (exchange, chain) -> {
+
+            String path = exchange.getRequest().getURI().getPath();
+
+            // Rutas públicas: auth y documentación Swagger
+            if (path.contains("/v3/api-docs") ||
+                    path.contains("/swagger-ui") ||
+                    path.contains("/swagger-ui.html") ||
+                    path.startsWith("/api/v1/auth")) {
+                return chain.filter(exchange);
             }
+
+            String authHeader = exchange.getRequest()
+                    .getHeaders()
+                    .getFirst(HttpHeaders.AUTHORIZATION);
+
+            // Validamos que exista el token y que venga con formato Bearer
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return onError(exchange, "Token faltante o formato inválido", HttpStatus.UNAUTHORIZED);
+            }
+
+            // Quitamos la palabra "Bearer " y dejamos solo el token
             String token = authHeader.substring(7);
-            try{
+
+            try {
                 Jwts.parserBuilder()
-                    .setSigningKey(Keys.hmacShaKeyFor(secreto.getBytes(StandardCharsets.UTF_8)))
-                    .build()
-                    .parseClaimsJws(token);
-            }catch (Exception e)
-            {
-                return onError(exchange, "token invalido o expirado", HttpStatus.UNAUTHORIZED);
+                        .setSigningKey(Keys.hmacShaKeyFor(secreto.getBytes(StandardCharsets.UTF_8)))
+                        .build()
+                        .parseClaimsJws(token);
+
+            } catch (Exception e) {
+                return onError(exchange, "Token inválido o expirado", HttpStatus.UNAUTHORIZED);
             }
+
             return chain.filter(exchange);
         };
     }
-    private Mono<Void> onError(ServerWebExchange exchange, String err, HttpStatus httpStatus)
-    {
+
+    private Mono<Void> onError(ServerWebExchange exchange, String err, HttpStatus httpStatus) {
         exchange.getResponse().setStatusCode(httpStatus);
         return exchange.getResponse().setComplete();
     }
-
 }
