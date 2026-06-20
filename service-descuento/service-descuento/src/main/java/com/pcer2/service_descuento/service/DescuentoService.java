@@ -55,6 +55,8 @@ public class DescuentoService {
             return estaActivo && yaInicio && noHaExpirado;
         })
         .orElse(false);
-}
-
+    }
+    public Descuento obtenerPorCodigo(String codigo) {
+        return descuentoRepository.findByCodigo(codigo).orElse(null);
+    }
 }

@@ -18,4 +18,6 @@ public class VoucherDTO {
     private Integer cantidadServicios;
     private String estado;
     private String observacion;
+
+    private String codigoDescuento;
 }

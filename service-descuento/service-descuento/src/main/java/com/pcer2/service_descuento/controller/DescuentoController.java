@@ -58,4 +58,10 @@ public class DescuentoController {
         return descuentoService.esValido(codigo);
     }
 
+    @GetMapping("/codigo/{codigo}")
+    @Operation(summary = "Obtener el objeto descuento completo por su código string")
+    public Descuento obtenerPorCodigo(@PathVariable String codigo) {
+        // Usamos el repositorio a través del método que ya tienes mapeado en tu service
+        return descuentoService.obtenerPorCodigo(codigo); 
+    }
 }

@@ -28,14 +28,29 @@ public class VoucherService {
 
         for (Voucher voucher : vouchers) {
 
-            Object orden = webClient
-                    .get()
-                    .uri("http://localhost:8084/api/v1/ordenes/" + voucher.getOrdenId())
-                    .retrieve()
-                    .bodyToMono(Object.class)
-                    .block();
+            try {
+                Object orden = webClient.get()
+                        .uri("http://localhost:8084/api/v1/ordenes/" + voucher.getOrdenId())
+                        .retrieve()
+                        .bodyToMono(Object.class)
+                        .block();
+                voucher.setDatosOrden(orden);
+            } catch (Exception e) {
+                voucher.setDatosOrden(null); 
+            }
 
-            voucher.setDatosOrden(orden);
+            if (voucher.getCodigoDescuento() != null && !voucher.getCodigoDescuento().isEmpty()) {
+                try {
+                    Object descuento = webClient.get()
+                            .uri("http://localhost:8090/api/v1/descuento/codigo/" + voucher.getCodigoDescuento())
+                            .retrieve()
+                            .bodyToMono(Object.class)
+                            .block();
+                    voucher.setDatosDescuento(descuento);
+                } catch (Exception e) {
+                    voucher.setDatosDescuento(null); // Si el código no existe, no revienta la app
+                }
+            }
         }
 
         return vouchers;
@@ -50,14 +65,35 @@ public class VoucherService {
 
             Voucher voucher = voucherOptional.get();
 
-            Object orden = webClient
-                    .get()
-                    .uri("http://localhost:8084/api/v1/ordenes/" + voucher.getOrdenId())
-                    .retrieve()
-                    .bodyToMono(Object.class)
-                    .block();
+            try {
+                Object orden = webClient
+                        .get()
+                        .uri("http://localhost:8084/api/v1/ordenes/" + voucher.getOrdenId())
+                        .retrieve()
+                        .bodyToMono(Object.class)
+                        .block();
 
-            voucher.setDatosOrden(orden);
+                voucher.setDatosOrden(orden);
+            } catch (Exception e) {
+
+                voucher.setDatosOrden(null); 
+            }
+
+            if (voucher.getCodigoDescuento() != null && !voucher.getCodigoDescuento().isEmpty()) {
+                try {
+                    Object descuento = webClient
+                            .get()
+                            .uri("http://localhost:8090/api/v1/descuento/codigo/" + voucher.getCodigoDescuento())
+                            .retrieve()
+                            .bodyToMono(Object.class)
+                            .block();
+
+                    voucher.setDatosDescuento(descuento);
+                } catch (Exception e) {
+                    
+                    voucher.setDatosDescuento(null); 
+                }
+            }
         }
 
         return voucherOptional;
@@ -76,6 +112,8 @@ public class VoucherService {
         voucher.setEstado(dto.getEstado());
         voucher.setObservacion(dto.getObservacion());
 
+        voucher.setCodigoDescuento(dto.getCodigoDescuento());
+
         return voucherRepository.save(voucher);
     }
 
@@ -92,6 +130,8 @@ public class VoucherService {
         voucher.setCantidadServicios(dto.getCantidadServicios());
         voucher.setEstado(dto.getEstado());
         voucher.setObservacion(dto.getObservacion());
+
+        voucher.setCodigoDescuento(dto.getCodigoDescuento());
 
         return voucherRepository.save(voucher);
     }

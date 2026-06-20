@@ -39,4 +39,10 @@ public class Voucher {
     // Sirve para mostrar datos traídos desde service_orden con WebClient.
     @Transient
     private Object datosOrden;
+
+    @Column(name = "codigo_descuento")
+    private String codigoDescuento;
+
+    @Transient
+    private Object datosDescuento;
 }
