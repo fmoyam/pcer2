@@ -23,6 +23,7 @@ import lombok.NoArgsConstructor;
 public class OrdenTrabajo {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "ID único de la orden de trabajo", example = "1")
     private Long id;
 
