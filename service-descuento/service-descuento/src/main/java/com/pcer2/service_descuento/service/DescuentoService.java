@@ -59,4 +59,19 @@ public class DescuentoService {
     public Descuento obtenerPorCodigo(String codigo) {
         return descuentoRepository.findByCodigo(codigo).orElse(null);
     }
+
+    public Descuento actualizar(Long id, DescuentoDto dto) {
+
+    Descuento descuento = descuentoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Descuento no encontrado"));
+
+        descuento.setCodigo(dto.getCodigo());
+        descuento.setDescripcion(dto.getDescripcion());
+        descuento.setPorcentajeDescuento(dto.getPorcentajeDescuento());
+        descuento.setFechaInicio(dto.getFechaInicio());
+        descuento.setFechaFin(dto.getFechaFin());
+        descuento.setActivo(dto.getActivo());
+
+        return descuentoRepository.save(descuento);
+    }
 }
